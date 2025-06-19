@@ -1,0 +1,363 @@
+# RSVP Event Application - Database Structure v2
+
+## Users and Authentication
+
+### users
+- user_id (PK)
+- username
+- email
+- password_hash
+- first_name
+- last_name
+- phone
+- profile_image_url
+- status (active, inactive, suspended)
+- last_login_at
+- created_by
+- created_at
+- updated_by
+- updated_at
+
+### roles
+- role_id (PK)
+- name (admin, event_manager, event_host, guest, hospitality, vendor)
+- description
+- permissions (JSON)
+- created_at
+- updated_at
+
+### user_roles
+- user_role_id (PK)
+- user_id (FK to users)
+- role_id (FK to roles)
+- created_at
+
+### permissions
+- permission_id (PK)
+- name
+- description
+- resource
+- action
+- created_at
+
+### role_permissions
+- role_permission_id (PK)
+- role_id (FK to roles)
+- permission_id (FK to permissions)
+- created_at
+
+## Event Management
+
+### events
+- event_id (PK)
+- name
+- description
+- type (wedding, corporate, birthday, other)
+- start_datetime
+- end_datetime
+- timezone
+- status (draft, published, cancelled, completed)
+- is_recurring (boolean)
+- recurrence_pattern (daily, weekly, monthly, yearly)
+- created_by (FK to users)
+- created_at
+- updated_by
+- updated_at
+
+### event_venues
+- venue_id (PK)
+- event_id (FK to events)
+- name
+- address_line1
+- address_line2
+- city
+- state
+- country
+- postal_code
+- latitude
+- longitude
+- is_primary (boolean)
+- capacity
+- created_at
+- updated_at
+
+### event_schedules
+- schedule_id (PK)
+- event_id (FK to events)
+- title
+- description
+- start_datetime
+- end_datetime
+- location
+- is_break (boolean)
+- created_at
+- updated_at
+
+## Guest Management
+
+guests
+- guest_id (PK)
+- first_name
+- last_name
+- email
+- phone
+- address
+- city
+- state
+- country
+- postal_code
+- date_of_birth
+- gender
+- is_vip (boolean)
+- notes
+- created_at
+- updated_at
+
+guest_groups
+- group_id (PK)
+- name
+- description
+- event_id (FK to events)
+- created_by (FK to users)
+- created_at
+- updated_at
+
+guest_group_members
+- member_id (PK)
+- group_id (FK to guest_groups)
+- guest_id (FK to guests)
+- is_primary (boolean)
+- created_at
+
+## RSVP Management
+
+rsvp_invitations
+- invitation_id (PK)
+- event_id (FK to events)
+- guest_id (FK to guests)
+- invitation_token
+- invitation_sent_at
+- invitation_opened_at
+- status (pending, sent, viewed, responded)
+- created_at
+- updated_at
+
+rsvp_responses
+- response_id (PK)
+- invitation_id (FK to rsvp_invitations)
+- guest_id (FK to guests)
+- response_status (attending, not_attending, maybe)
+- response_date
+- number_of_guests
+- plus_ones_allowed
+- plus_ones_count
+- dietary_restrictions
+- additional_notes
+- created_at
+- updated_at
+
+rsvp_plus_ones
+- plus_one_id (PK)
+- response_id (FK to rsvp_responses)
+- first_name
+- last_name
+- dietary_restrictions
+- created_at
+- updated_at
+
+## Logistics Management
+
+accommodations
+- accommodation_id (PK)
+- event_id (FK to events)
+- name
+- type (hotel, airbnb, other)
+- address
+- check_in_date
+- check_out_date
+- contact_person
+- contact_phone
+- contact_email
+- notes
+- created_at
+- updated_at
+
+guest_accommodations
+- guest_accommodation_id (PK)
+- guest_id (FK to guests)
+- accommodation_id (FK to accommodations)
+- room_number
+- check_in_date
+- check_out_date
+- status (booked, checked_in, checked_out, cancelled)
+- notes
+- created_at
+- updated_at
+
+transportation
+- transportation_id (PK)
+- event_id (FK to events)
+- type (shuttle, taxi, limo, other)
+- departure_location
+- departure_datetime
+- arrival_location
+- arrival_datetime
+- capacity
+- driver_name
+- driver_contact
+- vehicle_details
+- status (scheduled, in_progress, completed, cancelled)
+- notes
+- created_at
+- updated_at
+
+guest_transportation
+- guest_transportation_id (PK)
+- guest_id (FK to guests)
+- transportation_id (FK to transportation)
+- pickup_location
+- pickup_datetime
+- dropoff_location
+- dropoff_datetime
+- status (scheduled, picked_up, dropped_off, no_show, cancelled)
+- notes
+- created_at
+- updated_at
+
+## Notification System
+
+notification_templates
+- template_id (PK)
+- name
+- subject
+- content
+- type (email, sms, whatsapp, push)
+- variables (JSON)
+- status (active, inactive)
+- created_at
+- updated_at
+
+notifications
+- notification_id (PK)
+- template_id (FK to notification_templates)
+- event_id (FK to events, nullable)
+- subject
+- content
+- status (draft, sending, sent, failed)
+- scheduled_at
+- sent_at
+- created_by (FK to users)
+- created_at
+- updated_at
+
+notification_recipients
+- recipient_id (PK)
+- notification_id (FK to notifications)
+- guest_id (FK to guests)
+- channel (email, sms, whatsapp, push)
+- status (pending, sent, delivered, failed, read)
+- sent_at
+- delivered_at
+- read_at
+- error_message
+- created_at
+- updated_at
+
+## Check-in System
+
+check_in_records
+- check_in_id (PK)
+- event_id (FK to events)
+- guest_id (FK to guests)
+- check_in_time
+- check_out_time
+- checked_in_by (FK to users)
+- notes
+- created_at
+- updated_at
+
+## Reporting and Analytics
+
+event_analytics
+- analytics_id (PK)
+- event_id (FK to events)
+- total_invited
+- total_attending
+- total_declined
+- total_no_response
+- check_in_count
+- created_at
+- updated_at
+
+## System Settings
+
+system_settings
+- setting_id (PK)
+- setting_key
+- setting_value
+- data_type
+- description
+- created_at
+- updated_at
+
+## Audit Logs
+
+audit_logs
+- log_id (PK)
+- user_id (FK to users, nullable)
+- action
+- entity_type
+- entity_id
+- old_values (JSON)
+- new_values (JSON)
+- ip_address
+- user_agent
+- created_at
+
+## Help and Support
+
+faqs
+- faq_id (PK)
+- question
+- answer
+- category
+- order
+- status (active, inactive)
+- created_at
+- updated_at
+
+help_articles
+- article_id (PK)
+- title
+- content
+- category
+- status (draft, published, archived)
+- created_by (FK to users)
+- created_at
+- updated_at
+
+## Vendor Management
+
+vendors
+- vendor_id (PK)
+- name
+- company
+- email
+- phone
+- service_type
+- address
+- notes
+- status (active, inactive)
+- created_at
+- updated_at
+
+event_vendors
+- event_vendor_id (PK)
+- event_id (FK to events)
+- vendor_id (FK to vendors)
+- service_type
+- contract_details (JSON)
+- status (pending, confirmed, completed, cancelled)
+- notes
+- created_at
+- updated_at

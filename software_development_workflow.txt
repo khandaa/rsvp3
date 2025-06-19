@@ -1,0 +1,48 @@
+build a raw prompt from voice
+enhance the prompt 
+use create_prd.md to create a requirement document
+Review the generated requirement document for all functionality. Add/edit/delete as needed. 
+Create a task list using generate_tasks.md and PRD document 
+Review the tasks list 
+commit PRD and tasks list in git 
+create architecture diagram 
+Create database structure using the tasks list
+Add sample data for each table 
+Review the SQLlite database alongwith data to understand how will it look on the Application
+commit database in git
+Make sure you have registration, login, logging, error handling, RBAC implemented on the application
+Build the backend APIs using the database as the reference point 
+Test the APIs extensively. This will also generate the test data 
+commit backend code in git 
+Now build the UI. 
+Once all the components are built, test locally
+use automation for testing UI. 
+Commit frontend code in git 
+Once tested, create docker images separately for database, backend and frontend
+use docker_compose to let each component talk seamlessly to other components
+deploy the application 
+break the list of functionality into modules and build one module at a time 
+continue to test each module independently
+have RBAC for each module 
+build common utilities in one postal_code
+have frontend node_modules installed at one place 
+have backend dependencies in env in one folder 
+writing logs is important for all backend and frontend
+create documentation
+remove the dead code and folders and files that are not in use 
+create a virtual environment env at /Users/alokk/EmployDEX/Applications/ (if not alreay present) and source this environment to run backend. 
+create the folder node_modules at /Users/alokk/EmployDEX/Applications/ (if not alreay present) and source this environment to run frontend. 
+implement logging using 
+implement RBAC for all Applications
+implement error handling for all applications 
+implement CORS for all backend API access from frontend. Enable sites running locally on port numbers 30* to be able to access the APIs
+implement software pricing as a module so that it can be attached to any software 
+user registration
+user login
+error logging 
+dashboard 
+reports 
+role management 
+pricing 
+SAAS consumption 
+

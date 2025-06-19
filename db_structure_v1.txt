@@ -1,0 +1,123 @@
+user registration table fields
+user_id, username, mobile_number, email_id, password_hash, user_role, user_status, created_by, created_on, updated_by, updated_on
+
+user login table fields
+login_id, user_id, last_login_datetime, last_logout_datetime, last_login_ip, last_login_browser,  last_login_os
+
+user session table fields
+session_id, user_id, mobile_number, session_start_time, session_end_time, session_duration, session_ip, session_browser, session_os, created_by, created_on, updated_by, updated_on
+
+user roles table fields
+role_id, role_name, role_description,  role_status, created_by, created_on, updated_by, updated_on
+
+event table fields
+event_id, event_name, event_date, event_time, event_type, event_start_time, event_end_time, event_requirements, event_status, created_by, created_on, updated_by, updated_on
+
+event host table fields
+uid, event_id, host_id,host_mobile_number, host_email_id,  start_date, end_date
+
+event_guest table fields
+uid, event_id, guest_id, guest_status,guest_relation,  created_by, created_on, updated_by, updated_on
+
+event venue table fields
+uid, event_id, venue_id, booking_reference_number, venue_address, venue_location, venue_city, venue_country, venue_allocation_start_date, program_start_date, program_end_date, venue_handover_date
+
+
+event master table 
+
+venue master table 
+vendor master table
+artist master table 
+
+
+
+
+
+
+corporate event details table fields
+corporate_event_id, corporate_event_name, corporate_event_date, corporate_event_time, corporate_event_remarks, created_by, created_on, updated_by, updated_on
+
+corporate event guest details table fields
+corp_guest_id, corporate_event_id, team, role, salutation, first_name, last_name, hotel, room_category, remarks, check_in_date, check_out_date, created_by, created_on, updated_by, updated_on
+
+customer meeting details table fields
+meeting_id, meeting_name, meeting_date, meeting_time, meeting_remarks, attended_by, meeting_minutes, decisions, actions, created_by, created_on, updated_by, updated_on
+
+
+
+
+
+guests table fields
+guest_id, family_reference, super_formal_names, name_on_invite, salutation, first_name, last_name, relation, phone_number, email_address, check_in_date, check_out_date, dietary_preferences, created_by, created_on, updated_by, updated_on
+
+guest room details table fields
+room_id, guest_id, hotel_name, room_number, check_in_date, check_out_date, travel_agent_detail_email, sharer_code, room_category, status, bed_type, booking_type, hotel_remarks, created_by, created_on, updated_by, updated_on
+
+guest passport table fields
+passport_id, guest_id, passport_number, expiry_date, birth_date, address1, address2, city, state_region, postal_code, country, created_by, created_on, updated_by, updated_on
+
+guest arrival details table fields
+arrival_id, guest_id, arrival_sector, arrival_mode, arrival_time, arrival_date, arrival_vehicle_number, arrival_remarks, created_by, created_on, updated_by, updated_on
+
+guest departure details table fields
+departure_id, guest_id, departure_sector, departure_mode, departure_time, departure_date, departure_vehicle_number, departure_remarks, created_by, created_on, updated_by, updated_on
+
+
+guest gift details table fields
+gift_id, guest_id, gift_name, gift_description, gift_quantity, gift_remarks, created_by, created_on, updated_by, updated_on
+
+dietary_preference table fields
+preference_id, preference_name, description, status, created_by, created_on, updated_by, updated_on
+
+guest_dietary_preference table fields
+guest_preference_id, guest_id, preference_id, comments, created_by, created_on, updated_by, updated_on
+
+
+guest rsvp details table fields
+rsvp_id, guest_id, rsvp_status, rsvp_date, rsvp_time, rsvp_remarks, attending_count, meal_preference, created_by, created_on, updated_by, updated_on
+
+
+group table fields
+group_id, group_name, group_description, group_status, created_by, created_on, updated_by, updated_on
+
+group_guest table fields
+group_guest_id, group_id, guest_id, guest_status, created_by, created_on, updated_by, updated_on
+
+
+
+rsvp_token table fields
+token_id, guest_id, token_value, token_expiry, token_status, token_url, last_accessed, created_by, created_on, updated_by, updated_on
+
+notification table fields
+notification_id, notification_type, notification_subject, notification_message, notification_status, created_by, created_on, updated_by, updated_on
+
+notification_recipient table fields
+recipient_id, notification_id, guest_id, delivery_channel, delivery_status, sent_time, delivered_time, error_message, created_by, created_on, updated_by, updated_on
+
+notification_template table fields
+template_id, template_name, template_subject, template_content, template_type, template_variables, status, created_by, created_on, updated_by, updated_on
+
+whatsapp_message table fields
+message_id, guest_id, message_content, message_status, message_type, template_id, sent_time, delivered_time, read_time, media_url, created_by, created_on, updated_by, updated_on
+
+whatsapp_template table fields
+template_id, template_name, template_content, template_variables, template_language, approval_status, created_by, created_on, updated_by, updated_on
+
+logistics table fields
+logistics_id, guest_id, logistics_type, logistics_status, logistics_comments, assigned_to, created_by, created_on, updated_by, updated_on
+
+transportation table fields
+transport_id, guest_id, transportation_type, vehicle_details, driver_name, driver_contact, pickup_time, pickup_location, dropoff_location, status, created_by, created_on, updated_by, updated_on
+
+
+faq table fields
+faq_id, question, answer, category, status, order_number, created_by, created_on, updated_by, updated_on
+
+chatbot_response table fields
+response_id, keyword, response_text, response_type, created_by, created_on, updated_by, updated_on
+
+calendar_event table fields
+calendar_id, wedding_id, event_id, calendar_name, calendar_description, start_datetime, end_datetime, location, visibility, created_by, created_on, updated_by, updated_on
+
+audit_log table fields
+log_id, user_id, action_type, table_name, record_id, old_value, new_value, action_timestamp, ip_address, user_agent
