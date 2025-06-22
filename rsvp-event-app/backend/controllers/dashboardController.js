@@ -66,28 +66,19 @@ exports.getDashboardStats = asyncHandler(async (req, res, next) => {
       // Also filter for published events only
       status: 'published'
     },
-    include: [
-      {
-        model: db.Venue,
-        as: 'venue',
-        attributes: ['name', 'city']
-      }
-    ],
-    order: [['date', 'ASC']],
+    // Remove the incorrect include statement until proper associations are set up
+    // EventVenue relationship needs to be properly defined before including it
+    order: [['startDate', 'ASC']],
     limit: 5
   });
   
   // Format upcoming events data
   stats.upcomingEvents = await Promise.all(stats.upcomingEvents.map(async (event) => {
-    // Get guest count for this event
-    const guestsCount = await db.Guest.count({
-      include: [
-        {
-          model: db.Event,
-          as: 'events',
-          where: { id: event.id }
-        }
-      ]
+    // Get guest count for this event using the event_guests join table instead
+    const guestsCount = await db.EventGuest.count({
+      where: {
+        eventId: event.id
+      }
     });
     
     // Get confirmed count for this event
@@ -102,7 +93,7 @@ exports.getDashboardStats = asyncHandler(async (req, res, next) => {
       id: event.id,
       name: event.name,
       date: event.startDate,
-      location: event.venue ? `${event.venue.name}, ${event.venue.city}` : 'TBD',
+      location: 'TBD', // Simplified until venue association is properly set up
       guestsCount,
       confirmedCount
     };

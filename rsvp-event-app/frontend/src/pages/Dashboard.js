@@ -52,6 +52,7 @@ export default function Dashboard() {
       try {
         setLoading(true);
         // Fetch real dashboard data from the public endpoint for development
+        // API client will use the base URL from the .env file (http://localhost:5010)
         const response = await api.get('/api/dashboard/stats/public');
         
         if (response.data && response.data.success) {
