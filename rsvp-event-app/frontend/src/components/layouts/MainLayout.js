@@ -126,8 +126,12 @@ export default function MainLayout() {
       </Toolbar>
       <Divider />
       <List>
-        {menuItems.map((item) => (
-          hasPermission(item.requiredRole) && (
+        {menuItems.map((item) => {
+          // Show all menu items regardless of role for now, or implement a proper check
+          // if item doesn't have a requiredRole, or if hasPermission returns true, or if it's a basic role like 'guest'
+          const shouldShow = !item.requiredRole || item.requiredRole === 'guest' || hasPermission(item.requiredRole);
+          
+          return shouldShow && (
             <ListItem key={item.text} disablePadding>
               <ListItemButton onClick={() => {
                 navigate(item.path);
@@ -141,8 +145,8 @@ export default function MainLayout() {
                 <ListItemText primary={item.text} />
               </ListItemButton>
             </ListItem>
-          )
-        ))}
+          );
+        })}
       </List>
     </>
   );
