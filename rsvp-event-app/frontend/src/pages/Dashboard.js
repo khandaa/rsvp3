@@ -51,8 +51,8 @@ export default function Dashboard() {
     const fetchDashboardData = async () => {
       try {
         setLoading(true);
-        // Fetch real dashboard data from backend API
-        const response = await api.get('/api/dashboard/stats');
+        // Fetch real dashboard data from the public endpoint for development
+        const response = await api.get('/api/dashboard/stats/public');
         
         if (response.data && response.data.success) {
           // Use real data from the API
