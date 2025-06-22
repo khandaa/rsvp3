@@ -13,9 +13,9 @@ const PORT = process.env.PORT || 5010;
 // Middleware
 app.use(helmet());
 
-// CORS Configuration - More permissive for development
+// CORS Configuration
 app.use(cors({
-  origin: '*', // Allow all origins for troubleshooting
+  origin: process.env.NODE_ENV === 'production' ? process.env.FRONTEND_URL || 'https://your-frontend-domain.com' : '*',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Origin', 'X-Requested-With']
