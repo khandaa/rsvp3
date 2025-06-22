@@ -47,7 +47,8 @@ const startServer = async () => {
     console.log('Database connection has been established successfully.');
     
     if (process.env.NODE_ENV !== 'test') {
-      await sequelize.sync({ alter: true });
+      // Temporarily disable alter mode to avoid constraint errors
+      await sequelize.sync({ alter: false });
       console.log('Database synchronized');
       
       app.listen(PORT, () => {

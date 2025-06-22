@@ -23,7 +23,7 @@ exports.getDashboardStats = asyncHandler(async (req, res, next) => {
   const now = new Date();
   stats.activeEvents = await db.Event.count({
     where: {
-      date: {
+      startDate: {
         [Op.gte]: now
       }
     }
@@ -60,9 +60,11 @@ exports.getDashboardStats = asyncHandler(async (req, res, next) => {
   // Get upcoming events (limited to 5)
   stats.upcomingEvents = await db.Event.findAll({
     where: {
-      date: {
+      startDate: {
         [Op.gte]: now
-      }
+      },
+      // Also filter for published events only
+      status: 'published'
     },
     include: [
       {
@@ -99,7 +101,7 @@ exports.getDashboardStats = asyncHandler(async (req, res, next) => {
     return {
       id: event.id,
       name: event.name,
-      date: event.date,
+      date: event.startDate,
       location: event.venue ? `${event.venue.name}, ${event.venue.city}` : 'TBD',
       guestsCount,
       confirmedCount
