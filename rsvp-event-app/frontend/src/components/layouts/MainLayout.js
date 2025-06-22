@@ -84,7 +84,7 @@ export default function MainLayout() {
       text: 'Guests', 
       icon: <PeopleIcon />, 
       path: '/guests',
-      requiredRole: 'event_host'
+      requiredRole: 'guest' // Changed to 'guest' to be visible to all users
     },
     { 
       text: 'Transportation', 
