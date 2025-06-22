@@ -32,6 +32,7 @@ import UserManagementPage from './pages/admin/UserManagementPage';
 import SystemSettingsPage from './pages/admin/SystemSettingsPage';
 import ActivityLogsPage from './pages/admin/ActivityLogsPage';
 import HelpPage from './pages/help/HelpPage';
+import ComingSoonPage from './pages/ComingSoonPage';
 
 // Context and Hooks
 import { useAuth } from './context/AuthContext';
@@ -84,6 +85,8 @@ function App() {
             <Route index element={<GuestsPage />} />
             <Route path=":id" element={<GuestDetailsPage />} />
           </Route>
+          <Route path="transportation" element={<ComingSoonPage />} />
+          <Route path="accommodations" element={<ComingSoonPage />} />
           <Route path="help" element={<HelpPage />} />
         </Route>
 
