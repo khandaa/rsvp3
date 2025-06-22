@@ -10,8 +10,8 @@ const sequelize = db.sequelize;
  * @access  Private
  */
 exports.getDashboardStats = asyncHandler(async (req, res, next) => {
-  // Get current user
-  const userId = req.user.id;
+  // Get current user (optional for public endpoint)
+  const userId = req.user ? req.user.id : null;
   
   // Calculate stats
   const stats = {};
