@@ -32,7 +32,9 @@ import {
   Settings as SettingsIcon,
   Person as PersonIcon,
   Logout as LogoutIcon,
-  Help as HelpIcon
+  Help as HelpIcon,
+  LocalShipping as LogisticsIcon,
+  BarChart as ReportingIcon
 } from '@mui/icons-material';
 import { useAuth } from '../../context/AuthContext';
 
@@ -98,6 +100,18 @@ export default function MainLayout() {
       icon: <AccommodationIcon />, 
       path: '/accommodations',
       requiredRole: 'hospitality'
+    },
+    { 
+      text: 'Logistics', 
+      icon: <LogisticsIcon />, 
+      path: '/logistics',
+      requiredRole: 'guest'
+    },
+    { 
+      text: 'Reporting', 
+      icon: <ReportingIcon />, 
+      path: '/reporting',
+      requiredRole: 'guest'
     },
     { 
       text: 'Admin Panel', 

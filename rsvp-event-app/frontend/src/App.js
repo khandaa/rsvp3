@@ -87,6 +87,8 @@ function App() {
           </Route>
           <Route path="transportation" element={<ComingSoonPage />} />
           <Route path="accommodations" element={<ComingSoonPage />} />
+          <Route path="logistics" element={<ComingSoonPage />} />
+          <Route path="reporting" element={<ComingSoonPage />} />
           <Route path="help" element={<HelpPage />} />
         </Route>
 
