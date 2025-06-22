@@ -51,7 +51,10 @@ module.exports = (sequelize) => {
         field: 'date_of_birth',
       },
       gender: {
-        type: DataTypes.ENUM('male', 'female', 'other', 'prefer_not_to_say'),
+        type: DataTypes.STRING,
+        validate: {
+          isIn: [['male', 'female', 'other', 'prefer_not_to_say']]
+        }
       },
       isVip: {
         type: DataTypes.BOOLEAN,
@@ -62,13 +65,27 @@ module.exports = (sequelize) => {
         type: DataTypes.TEXT,
       },
       tags: {
-        type: DataTypes.ARRAY(DataTypes.STRING),
-        defaultValue: [],
+        type: DataTypes.TEXT,
+        defaultValue: '[]',
+        get() {
+          const value = this.getDataValue('tags');
+          return value ? JSON.parse(value) : [];
+        },
+        set(value) {
+          this.setDataValue('tags', JSON.stringify(value || []));
+        }
       },
       customFields: {
-        type: DataTypes.JSONB,
+        type: DataTypes.TEXT,
         field: 'custom_fields',
-        defaultValue: {},
+        defaultValue: '{}',
+        get() {
+          const value = this.getDataValue('customFields');
+          return value ? JSON.parse(value) : {};
+        },
+        set(value) {
+          this.setDataValue('customFields', JSON.stringify(value || {}));
+        }
       },
     },
     {

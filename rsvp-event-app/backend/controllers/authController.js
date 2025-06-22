@@ -13,8 +13,12 @@ const logger = require('../utils/logger');
 exports.register = asyncHandler(async (req, res, next) => {
   const { firstName, lastName, email, password, phone, roleId } = req.body;
 
+  // Generate username from email (before the @ symbol)
+  const username = email.split('@')[0];
+
   // Create user
   const user = await User.create({
+    username,
     firstName,
     lastName,
     email,
@@ -62,14 +66,17 @@ exports.register = asyncHandler(async (req, res, next) => {
 
 /**
  * @desc    Login user
- * @route   POST /api/v1/auth/login
+ * @route   POST /api/auth/login
  * @access  Public
  */
 exports.login = asyncHandler(async (req, res, next) => {
+  console.log('Login request body:', req.body); // Log the request body
+  
   const { email, password } = req.body;
 
   // Validate email & password
   if (!email || !password) {
+    console.log('Missing email or password');
     return next(new ErrorResponse('Please provide an email and password', 400));
   }
 

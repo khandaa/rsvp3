@@ -12,6 +12,10 @@ const {
 // Public routes
 router.post('/register', registerValidator, authController.register);
 router.post('/login', loginValidator, authController.login);
+
+// Test login route with no validation (for troubleshooting)
+router.post('/login-test', authController.login);
+
 router.post('/forgotpassword', forgotPasswordValidator, authController.forgotPassword);
 router.put('/resetpassword/:resettoken', resetPasswordValidator, authController.resetPassword);
 router.get('/verifyemail/:token', authController.verifyEmail);

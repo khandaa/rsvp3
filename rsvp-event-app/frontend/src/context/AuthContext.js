@@ -54,13 +54,35 @@ export const AuthProvider = ({ children }) => {
   // Login user
   const login = async (credentials) => {
     try {
-      const { data } = await api.post('/api/auth/login', credentials);
+      const loginData = {
+        email: credentials.email,
+        password: credentials.password
+      };
+      
+      console.log('Connecting to backend server...');
+      
+      // Try direct fetch first to check connectivity
+      try {
+        await fetch('http://localhost:5010/health', { method: 'GET' });
+        console.log('Backend health check successful');
+      } catch (healthError) {
+        console.error('Backend health check failed:', healthError);
+        throw new Error('Cannot connect to backend server. Please ensure it is running.');
+      }
+      
+      console.log('Sending login request with data:', loginData);
+      
+      // Use the standard login endpoint
+      const { data } = await api.post('/api/auth/login', loginData);
+      
+      console.log('Login successful, received data:', data);
       localStorage.setItem('token', data.token);
       api.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
       setUser(data.user);
       setIsAuthenticated(true);
       return data;
     } catch (error) {
+      console.error('Login error details:', error.response?.data || error.message);
       throw error;
     }
   };

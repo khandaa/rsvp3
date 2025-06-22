@@ -92,6 +92,7 @@ module.exports = (sequelize) => {
       through: 'user_roles',
       foreignKey: 'user_id',
       otherKey: 'role_id',
+      as: 'role',  // Add the alias to match what's used in authController
     });
 
     User.hasMany(models.Event, {

@@ -1,3 +1,7 @@
+/**
+ * Modified server entry point that skips database synchronization
+ * Use this when the database schema already exists and you don't want to modify it
+ */
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -8,7 +12,7 @@ const routes = require('./routes');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5010;
 
 // Middleware
 app.use(helmet());
@@ -40,20 +44,21 @@ app.get('/health', (req, res) => {
 // Error handling middleware
 app.use(errorHandler);
 
-// Database connection and server start
+// Database connection and server start without sync
 const startServer = async () => {
   try {
     await sequelize.authenticate();
     console.log('Database connection has been established successfully.');
     
-    if (process.env.NODE_ENV !== 'test') {
-      await sequelize.sync({ alter: true });
-      console.log('Database synchronized');
-      
-      app.listen(PORT, () => {
-        console.log(`Server is running on port ${PORT}`);
-      });
-    }
+    // NO DATABASE SYNC - prevent schema changes
+    // if (process.env.NODE_ENV !== 'test') {
+    //   await sequelize.sync({ alter: true });
+    //   console.log('Database synchronized');
+    // }
+    
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
   } catch (error) {
     console.error('Unable to connect to the database:', error);
     process.exit(1);
