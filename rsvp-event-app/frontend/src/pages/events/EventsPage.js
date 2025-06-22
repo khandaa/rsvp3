@@ -59,77 +59,35 @@ export default function EventsPage() {
     try {
       setLoading(true);
       
-      // In a real app, replace this with an actual API call
-      // const { data } = await api.get('/api/events', { 
-      //   params: { 
-      //     page, 
-      //     sort: sortBy,
-      //     category: selectedCategory !== 'All' ? selectedCategory : undefined,
-      //     search: searchTerm || undefined
-      //   } 
-      // });
+      // Make a real API call to fetch events from the backend
+      const response = await api.get('/api/events', { 
+        params: { 
+          page, 
+          limit: 10, // Number of items per page
+          sort: sortBy,
+          category: selectedCategory !== 'All' ? selectedCategory : undefined,
+          search: searchTerm || undefined
+        } 
+      });
       
-      // Mock data
-      const mockEvents = [
-        {
-          id: 1,
-          name: 'Annual Company Conference',
-          description: 'Join us for our annual company conference where we discuss the future of our company.',
-          date: '2025-07-15T09:00:00',
-          location: 'Convention Center',
-          category: 'Corporate',
-          status: 'upcoming',
-          isPublic: true,
-          imageUrl: null,
-          guestsCount: 120,
-          confirmedCount: 95
-        },
-        {
-          id: 2,
-          name: 'Product Launch',
-          description: 'Be the first to see our newest product line and enjoy exclusive launch day discounts.',
-          date: '2025-06-28T14:00:00',
-          location: 'Main Office',
-          category: 'Corporate',
-          status: 'upcoming',
-          isPublic: true,
-          imageUrl: null,
-          guestsCount: 75,
-          confirmedCount: 52
-        },
-        {
-          id: 3,
-          name: 'Customer Appreciation Day',
-          description: 'A day dedicated to our valued customers with food, entertainment, and networking.',
-          date: '2025-07-02T11:00:00',
-          location: 'City Park',
-          category: 'Social',
-          status: 'upcoming',
-          isPublic: true,
-          imageUrl: null,
-          guestsCount: 85,
-          confirmedCount: 40
-        },
-        {
-          id: 4,
-          name: 'Team Building Workshop',
-          description: 'Strengthen team bonds and develop new skills in this interactive workshop.',
-          date: '2025-08-10T10:00:00',
-          location: 'Training Center',
-          category: 'Workshop',
-          status: 'upcoming',
-          isPublic: false,
-          imageUrl: null,
-          guestsCount: 30,
-          confirmedCount: 25
-        }
-      ];
+      // Handle API response based on actual backend format
+      const { data } = response;
       
-      setTimeout(() => {
-        setEvents(mockEvents);
-        setTotalPages(1); // Mocked total pages
-        setLoading(false);
-      }, 500);
+      if (data && data.success) {
+        // The backend returns events in data.data and pagination info
+        setEvents(data.data || []);
+        
+        // Calculate total pages from count and limit (10 per page)
+        const totalPages = Math.ceil(data.count / 10);
+        setTotalPages(totalPages || 1);
+        
+        console.log('Events loaded:', data.data);
+      } else {
+        console.error('Failed to load events');
+        setEvents([]);
+      }
+      
+      setLoading(false);
       
     } catch (error) {
       console.error('Error fetching events:', error);
