@@ -51,48 +51,36 @@ export default function Dashboard() {
     const fetchDashboardData = async () => {
       try {
         setLoading(true);
-        // In a real app, you'd fetch this data from your API
-        // Mocked data for now
-        const response = {
-          data: {
-            totalEvents: 12,
-            activeEvents: 5,
-            totalGuests: 248,
-            confirmedGuests: 187,
-            pendingGuests: 61,
-            upcomingEvents: [
-              { 
-                id: 1, 
-                name: 'Annual Company Conference', 
-                date: '2025-07-15', 
-                location: 'Convention Center',
-                guestsCount: 120,
-                confirmedCount: 95
-              },
-              { 
-                id: 2, 
-                name: 'Product Launch', 
-                date: '2025-06-28', 
-                location: 'Main Office',
-                guestsCount: 75,
-                confirmedCount: 52
-              },
-              { 
-                id: 3, 
-                name: 'Customer Appreciation Day', 
-                date: '2025-07-02', 
-                location: 'City Park',
-                guestsCount: 85,
-                confirmedCount: 40
-              }
-            ]
-          }
-        };
+        // Fetch real dashboard data from backend API
+        const response = await api.get('/api/dashboard/stats');
         
-        setStats(response.data);
+        if (response.data && response.data.success) {
+          // Use real data from the API
+          setStats(response.data.data);
+        } else {
+          // Fallback to default values if API response is invalid
+          console.error('Invalid API response format:', response.data);
+          setStats({
+            totalEvents: 0,
+            activeEvents: 0,
+            totalGuests: 0,
+            confirmedGuests: 0,
+            pendingGuests: 0,
+            upcomingEvents: []
+          });
+        }
         setLoading(false);
       } catch (error) {
         console.error('Error fetching dashboard data:', error);
+        // Set fallback data if API call fails
+        setStats({
+          totalEvents: 0,
+          activeEvents: 0,
+          totalGuests: 0,
+          confirmedGuests: 0,
+          pendingGuests: 0,
+          upcomingEvents: []
+        });
         setLoading(false);
       }
     };

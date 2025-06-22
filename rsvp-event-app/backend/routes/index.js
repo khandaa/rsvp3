@@ -10,6 +10,7 @@ const venueRoutes = require('./venues');
 const guestGroupRoutes = require('./guestGroups');
 const logisticsRoutes = require('./logistics');
 const reportingRoutes = require('./reporting');
+const dashboardRoutes = require('./dashboard');
 
 // Register routes
 router.use('/auth', authRoutes);
@@ -20,6 +21,7 @@ router.use('/venues', venueRoutes);
 router.use('/guest-groups', guestGroupRoutes);
 router.use('/logistics', logisticsRoutes);
 router.use('/reporting', reportingRoutes);
+router.use('/dashboard', dashboardRoutes);
 
 // API health check
 router.get('/health', (req, res) => {
