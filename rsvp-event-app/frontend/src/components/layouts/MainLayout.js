@@ -18,7 +18,8 @@ import {
   MenuItem,
   Avatar,
   useMediaQuery,
-  useTheme
+  useTheme,
+  Chip
 } from '@mui/material';
 import {
   Menu as MenuIcon,
@@ -174,6 +175,22 @@ export default function MainLayout() {
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
             {/* Dynamic page title */}
           </Typography>
+          
+          {/* User role chip */}
+          {user && user.role && (
+            <Chip
+              label={`Role: ${String(user.role).charAt(0).toUpperCase() + String(user.role).slice(1)}`}
+              color="secondary"
+              size="small"
+              sx={{ 
+                mr: 2,
+                textTransform: 'capitalize',
+                fontWeight: 'medium',
+                display: { xs: 'none', sm: 'flex' }
+              }}
+            />
+          )}
+          
           <IconButton
             size="large"
             color="inherit"
@@ -181,23 +198,40 @@ export default function MainLayout() {
           >
             <NotificationsIcon />
           </IconButton>
-          <IconButton
-            size="large"
-            edge="end"
-            aria-label="account"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            onClick={handleProfileMenuOpen}
-            color="inherit"
-          >
-            <Avatar 
-              alt={user?.firstName || 'User'}
-              src={user?.profileImage}
-              sx={{ width: 32, height: 32 }}
+          
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            {/* Show role text on mobile */}
+            {user && user.role && (
+              <Typography 
+                variant="caption" 
+                sx={{ 
+                  mr: 1, 
+                  display: { xs: 'block', sm: 'none' },
+                  textTransform: 'capitalize'
+                }}
+              >
+                {String(user.role)}
+              </Typography>
+            )}
+            
+            <IconButton
+              size="large"
+              edge="end"
+              aria-label="account"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleProfileMenuOpen}
+              color="inherit"
             >
-              {user?.firstName?.charAt(0) || 'U'}
-            </Avatar>
-          </IconButton>
+              <Avatar 
+                alt={user?.firstName || 'User'}
+                src={user?.profileImage}
+                sx={{ width: 32, height: 32 }}
+              >
+                {user?.firstName?.charAt(0) || 'U'}
+              </Avatar>
+            </IconButton>
+          </Box>
           <Menu
             id="menu-appbar"
             anchorEl={anchorEl}
