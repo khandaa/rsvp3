@@ -78,44 +78,19 @@ export default function EventDetailsPage() {
     try {
       setLoading(true);
       
-      // In a real app, this would be an API call
-      // const { data } = await api.get(`/api/events/${id}`);
+      // Fetch real event data from API
+      const { data } = await api.get(`/api/events/${id}`);
       
-      // Mock data
-      const mockEvent = {
-        id: parseInt(id),
-        name: 'Annual Company Conference',
-        description: 'Join us for our annual company conference where we discuss the future of our company. This all-day event includes presentations from leadership, workshops, networking opportunities, and a catered lunch. All employees are required to attend.',
-        date: '2025-07-15T09:00:00',
-        endDate: '2025-07-15T17:00:00',
-        location: 'Convention Center',
-        address: '123 Main Street, Cityville, State 12345',
-        category: 'Corporate',
-        status: 'upcoming',
-        isPublic: true,
-        imageUrl: null,
-        capacity: 150,
-        registeredCount: 120,
-        confirmedCount: 95,
-        organizerName: 'Events Team',
-        organizerEmail: 'events@company.com',
-        eventWebsite: 'https://company.com/conference-2025',
-        agenda: [
-          { time: '09:00 AM', title: 'Registration & Breakfast' },
-          { time: '10:00 AM', title: 'Keynote Address' },
-          { time: '11:30 AM', title: 'Breakout Sessions' },
-          { time: '01:00 PM', title: 'Lunch' },
-          { time: '02:00 PM', title: 'Workshops' },
-          { time: '04:00 PM', title: 'Closing Remarks' },
-          { time: '05:00 PM', title: 'Networking Reception' }
-        ],
-        additionalInfo: 'Please bring your company ID for check-in. Business casual attire is requested.'
-      };
+      // Use actual event data from the database
+      if (data && data.success) {
+        setEvent(data.data);
+      } else {
+        console.error('No event data returned:', data);
+        // Fallback if the API returns success:false
+        throw new Error('Failed to fetch event details');
+      }
       
-      setTimeout(() => {
-        setEvent(mockEvent);
-        setLoading(false);
-      }, 500);
+      setLoading(false);
       
     } catch (error) {
       console.error('Error fetching event details:', error);
@@ -125,21 +100,19 @@ export default function EventDetailsPage() {
 
   const fetchGuestList = async () => {
     try {
-      // In a real app, this would be an API call
-      // const { data } = await api.get(`/api/events/${id}/guests`);
+      // Fetch guest data from API
+      const { data } = await api.get(`/api/events/${id}/guests`);
       
-      // Mock data
-      const mockGuests = [
-        { id: 1, name: 'John Doe', email: 'john@example.com', status: 'confirmed', avatar: null },
-        { id: 2, name: 'Jane Smith', email: 'jane@example.com', status: 'confirmed', avatar: null },
-        { id: 3, name: 'Alice Johnson', email: 'alice@example.com', status: 'pending', avatar: null },
-        { id: 4, name: 'Bob Brown', email: 'bob@example.com', status: 'confirmed', avatar: null },
-        { id: 5, name: 'Charlie Wilson', email: 'charlie@example.com', status: 'declined', avatar: null },
-      ];
-      
-      setGuestList(mockGuests);
+      // Use actual guest data from the database
+      if (data && data.success) {
+        setGuestList(data.data || []);
+      } else {
+        console.error('No guest data returned:', data);
+        setGuestList([]);
+      }
     } catch (error) {
       console.error('Error fetching guest list:', error);
+      setGuestList([]);
     }
   };
 
@@ -161,13 +134,14 @@ export default function EventDetailsPage() {
 
   const handleDeleteEvent = async () => {
     try {
-      // In a real app, make an API call to delete the event
-      // await api.delete(`/api/events/${id}`);
+      // Delete event via API
+      await api.delete(`/api/events/${id}`);
       
       closeDeleteDialog();
       navigate('/events', { state: { message: 'Event successfully deleted' } });
     } catch (error) {
       console.error('Error deleting event:', error);
+      // Show error notification
     }
   };
 

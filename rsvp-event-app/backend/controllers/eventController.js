@@ -17,14 +17,15 @@ exports.getEvents = asyncHandler(async (req, res) => {
   const queryOptions = {
     offset: startIndex,
     limit,
-    include: [
-      {
-        model: Venue,
-        as: 'venue',
-        attributes: ['id', 'name', 'address', 'city', 'state', 'zipCode']
-      }
-    ],
-    order: [['date', 'ASC']]
+    // Temporarily removing Venue include until association is properly set up
+    // include: [
+    //   {
+    //     model: Venue,
+    //     as: 'venue',
+    //     attributes: ['id', 'name', 'address', 'city', 'state', 'zipCode']
+    //   }
+    // ],
+    order: [['start_date', 'ASC']]
   };
 
   // Filter by status if provided
@@ -88,13 +89,14 @@ exports.getEvents = asyncHandler(async (req, res) => {
  */
 exports.getEvent = asyncHandler(async (req, res, next) => {
   const event = await Event.findByPk(req.params.id, {
-    include: [
-      {
-        model: Venue,
-        as: 'venue',
-        attributes: ['id', 'name', 'address', 'city', 'state', 'zipCode']
-      }
-    ]
+    // Temporarily removing Venue include until association is properly set up
+    // include: [
+    //   {
+    //     model: Venue,
+    //     as: 'venue',
+    //     attributes: ['id', 'name', 'address', 'city', 'state', 'zipCode']
+    //   }
+    // ]
   });
 
   if (!event) {
