@@ -87,6 +87,7 @@
   - [ ] 5.1 Design logistics data model
   - [x] 5.2 Create travel management interface
   - [x] 5.3 Implement accommodation tracking
+  - [ ] implement smoking / non-smoking room in room category
   - [x] 5.4 Add transportation management
   - [x] 5.5 Create room assignment system
   - [ ] 5.6 Implement check-in/check-out tracking
